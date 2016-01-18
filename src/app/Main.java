@@ -11,6 +11,12 @@ public class Main extends Application {
     private Stage mainStage;
 
     public static void main(String[] args) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
         launch(args);
     }
 

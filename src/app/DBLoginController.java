@@ -62,15 +62,9 @@ public class DBLoginController implements Initializable {
     }
 
     private boolean checkMySQLCredentials() {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
         // jdbc:mysql://<host>[:<port>]/<database_name>
         try (Connection ignored = DriverManager.getConnection(
-                String.format("jdbc:mysql://%s/%s", url.getText(), "novacar9_chikitsa"),
+                String.format("jdbc:mysql://%s/%s", url.getText(), Constants.DB_NAME),
                 login.getText(),
                 password.getText())) {
             DatabaseCredentials.getInstance().getCredentials().put(Constants.DB_URL, url.getText());
