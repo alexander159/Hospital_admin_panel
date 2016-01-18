@@ -1,5 +1,6 @@
 package app;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -43,14 +44,15 @@ public class DBLoginController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        //At the time of initialize() controls are not yet ready to handle focus.
+        Platform.runLater(loginLabel::requestFocus); //unfocus textfields
     }
 
     @FXML
     public void handleLoginAction(ActionEvent event) throws IOException {
         Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-        if (checkCredentials()) {
+        if (checkMySQLCredentials()) {
             Parent adminPanel = FXMLLoader.load(getClass().getResource("AdminPanel.fxml"));
 
             mainStage.hide();
@@ -59,7 +61,7 @@ public class DBLoginController implements Initializable {
         }
     }
 
-    private boolean checkCredentials() {
+    private boolean checkMySQLCredentials() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -77,7 +79,7 @@ public class DBLoginController implements Initializable {
 
             return true;
         } catch (SQLException e) {
-            incorrectLoginLabel.setText("An error occurred. Maybe user/password is invalid");
+            incorrectLoginLabel.setText(e.getMessage());
             e.printStackTrace();
         }
 

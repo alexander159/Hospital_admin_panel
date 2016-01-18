@@ -1,14 +1,18 @@
 package app;
 
-import message.ConfirmBox;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import message.ConfirmBox;
 
 public class Main extends Application {
     private Stage mainStage;
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -23,6 +27,7 @@ public class Main extends Application {
         });
 
         mainStage.setScene(new Scene(root));
+        mainStage.setResizable(false);
         mainStage.show();
     }
 
@@ -30,9 +35,5 @@ public class Main extends Application {
         if (ConfirmBox.display("Confirm", "Are you sure you want to exit?")) {
             mainStage.close();
         }
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }
