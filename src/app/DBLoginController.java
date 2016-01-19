@@ -25,19 +25,14 @@ import java.util.ResourceBundle;
 public class DBLoginController implements Initializable {
     @FXML
     public TextField login;
-
     @FXML
     public PasswordField password;
-
     @FXML
     public Label loginLabel;
-
     @FXML
     public Button loginButton;
-
     @FXML
     public Label incorrectLoginLabel;
-
     @FXML
     public TextField url;
 
