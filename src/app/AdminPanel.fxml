@@ -6,13 +6,12 @@
             minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40"
             fx:controller="app.AdminPanelController">
     <children>
-        <ComboBox fx:id="hospitalComboBox" layoutX="82.0" layoutY="14.0" onAction="#handleHospitalComboBoxAction"
-                  prefHeight="25.0" prefWidth="206.0"/>
+        <ComboBox fx:id="hospitalComboBox" layoutX="82.0" layoutY="14.0" prefHeight="25.0" prefWidth="206.0"/>
         <Label fx:id="hospitalLabel" layoutX="28.0" layoutY="18.0" text="Hospital"/>
         <Label fx:id="yearLabel" layoutX="50.0" layoutY="64.0" text="Year"/>
         <ComboBox fx:id="yearComboBox" layoutX="82.0" layoutY="60.0" prefHeight="25.0" prefWidth="206.0"/>
-        <Button fx:id="downloadButton" layoutX="217.0" layoutY="363.0" mnemonicParsing="false"
-                onAction="#handleDownloadAction" text="Download" AnchorPane.bottomAnchor="14.0"/>
+        <Button fx:id="downloadButton" layoutX="217.0" layoutY="363.0" mnemonicParsing="false" text="Download"
+                AnchorPane.bottomAnchor="14.0"/>
         <ListView fx:id="recordsListView" layoutX="301.0" layoutY="14.0" prefHeight="374.0" prefWidth="285.0"
                   AnchorPane.bottomAnchor="14.0" AnchorPane.topAnchor="14.0"/>
     </children>

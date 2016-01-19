@@ -9,15 +9,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import util.Constants;
 import util.DatabaseCredentials;
+import util.SimpleDateParser;
 
 import java.net.URL;
 import java.sql.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.ResourceBundle;
+import java.util.TreeSet;
 
 public class AdminPanelController implements Initializable {
-    private static final String[] timestampFormats = {"dd/MM/yyyy", "yyyy-MM-dd"};
     @FXML
     public ComboBox hospitalComboBox;
     @FXML
@@ -30,38 +30,39 @@ public class AdminPanelController implements Initializable {
     public Button downloadButton;
     @FXML
     public ListView recordsListView;
-    private Map<String, String> hospitals;   //key = 'doctor_id_for_staff', value = 'hospital_name (doctor_id_for_staff)'
+
+    private LinkedList<String[]> hospitals;   //array contains 'doctor_id_for_staff', 'hospital_name'
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Platform.runLater(() -> {
             hospitals = loadHospitals();
-            hospitals.forEach((key, value) -> hospitalComboBox.getItems().add(value));
+            for (int i = 0; i < hospitals.size(); i++) {
+                hospitalComboBox.getItems().add(i, hospitals.get(i)[1]);
+            }
             yearComboBox.setDisable(true);
         });
+
+        hospitalComboBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+            if (yearComboBox.isDisable()) {
+                yearComboBox.setDisable(false);
+            }
+            yearComboBox.getSelectionModel().clearSelection();
+            yearComboBox.getItems().clear();
+
+            TreeSet<Integer> years = loadYears();
+            years.forEach(y -> yearComboBox.getItems().add(y));
+        });
+
+        yearComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            //todo load count of records to table
+        });
+
+
     }
 
-    @FXML
-    public void handleDownloadAction() {
-
-    }
-
-    @FXML
-    public void handleHospitalComboBoxAction() {
-        hospitalComboBox.getSelectionModel().getSelectedItem();
-
-        if (yearComboBox.isDisable()) {
-            yearComboBox.setDisable(false);
-        }
-        yearComboBox.getSelectionModel().clearSelection();
-        yearComboBox.getItems().clear();
-
-        TreeSet<Integer> years = loadYears();
-        years.forEach(integer -> yearComboBox.getItems().add(integer));
-    }
-
-    private LinkedHashMap<String, String> loadHospitals() {
-        LinkedHashMap<String, String> result = null;
+    private LinkedList<String[]> loadHospitals() {
+        LinkedList<String[]> result = null;
 
         String sql = "SELECT doctor_id_for_staff, hospital_name\n" +
                 "FROM ck_clinic_staff\n" +
@@ -72,9 +73,9 @@ public class AdminPanelController implements Initializable {
         try (Connection con = getConnection();
              PreparedStatement ps = con.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
-            result = new LinkedHashMap<>();
+            result = new LinkedList<>();
             while (rs.next()) {
-                result.put(rs.getString("doctor_id_for_staff"), String.format("%s (%s)", rs.getString("hospital_name"), rs.getString("doctor_id_for_staff")));
+                result.add(new String[]{rs.getString("doctor_id_for_staff"), rs.getString("hospital_name")});
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -89,20 +90,23 @@ public class AdminPanelController implements Initializable {
         String sql = "SELECT admission_date\n" +
                 "FROM ck_pharmacy_store_order\n" +
                 "WHERE admission_date != 'N/A' AND admission_date != '' AND admission_date NOT LIKE '%.%' AND doctor_id = " +
-                getKeyByValue(hospitals, String.valueOf(hospitalComboBox.getSelectionModel().getSelectedItem()));
+                hospitals.get(hospitalComboBox.getSelectionModel().getSelectedIndex())[0];
 
         try (Connection con = getConnection();
              PreparedStatement ps = con.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             result = new TreeSet<>();
             while (rs.next()) {
-                java.util.Date admissionDate = parseDate(rs.getString("admission_date"));
-                if (admissionDate != null) {
-                    Calendar cal = Calendar.getInstance();
-                    cal.setTimeInMillis(admissionDate.getTime());
-                    result.add(cal.get(Calendar.YEAR));
+                if (SimpleDateParser.validateDate(rs.getString("admission_date"), 0)) {
+                    result.add(SimpleDateParser.getYear(rs.getString("admission_date"), 0));
+                    if (rs.getString("admission_date").length() < 10)
+                        System.out.println(rs.getString("admission_date"));
+                } else if (SimpleDateParser.validateDate(rs.getString("admission_date"), 1)) {
+                    result.add(SimpleDateParser.getYear(rs.getString("admission_date"), 1));
+                    if (rs.getString("admission_date").length() < 10)
+                        System.out.println(rs.getString("admission_date"));
                 } else {
-                    System.err.println("impossible to parse: " + rs.getString("admission_date"));
+                    System.err.println("invalid date: " + rs.getString("admission_date"));
                 }
             }
         } catch (SQLException e) {
@@ -112,31 +116,10 @@ public class AdminPanelController implements Initializable {
         return result;
     }
 
-    private java.util.Date parseDate(String d) {
-        java.util.Date date = null;
-        if (d != null) {
-            for (String parse : timestampFormats) {
-                SimpleDateFormat sdf = new SimpleDateFormat(parse);
-                try {
-                    date = sdf.parse(d);
-                    System.out.println(parse);
-                    break;
-                } catch (ParseException ignore) {
-                }
-            }
-        }
-        return date;
-    }
-
-    private String getKeyByValue(Map<String, String> map, String valueToFind) {
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            if (entry.getValue().equals(valueToFind)) {
-                return entry.getKey();
-            }
-        }
-
-        return null;
-    }
+//    private int loadCountOfRecords(int month, int year){
+//        int count = 0;
+//
+//    }
 
     private Connection getConnection() throws SQLException {
         // jdbc:mysql://<host>[:<port>]/<database_name>
@@ -145,5 +128,4 @@ public class AdminPanelController implements Initializable {
                 DatabaseCredentials.getInstance().getCredentials().get(Constants.DB_USER),
                 DatabaseCredentials.getInstance().getCredentials().get(Constants.DB_PASSWORD));
     }
-
 }
