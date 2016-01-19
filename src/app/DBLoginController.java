@@ -1,7 +1,6 @@
 package app;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -46,19 +45,23 @@ public class DBLoginController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         //At the time of initialize() controls are not yet ready to handle focus.
         Platform.runLater(loginLabel::requestFocus); //unfocus textfields
-    }
 
-    @FXML
-    public void handleLoginAction(ActionEvent event) throws IOException {
-        Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        loginButton.setOnAction(event -> {
+            Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-        if (checkMySQLCredentials()) {
-            Parent adminPanel = FXMLLoader.load(getClass().getResource("AdminPanel.fxml"));
+            if (checkMySQLCredentials()) {
+                Parent adminPanel = null;
+                try {
+                    adminPanel = FXMLLoader.load(getClass().getResource("AdminPanel.fxml"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
-            mainStage.hide();
-            mainStage.setScene(new Scene(adminPanel));
-            mainStage.show();
-        }
+                mainStage.hide();
+                mainStage.setScene(new Scene(adminPanel));
+                mainStage.show();
+            }
+        });
     }
 
     private boolean checkMySQLCredentials() {

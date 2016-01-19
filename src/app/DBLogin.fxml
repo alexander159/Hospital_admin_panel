@@ -10,7 +10,7 @@
       <TextField fx:id="login" layoutX="202.0" layoutY="166.0" prefHeight="25.0" prefWidth="186.0" promptText="Login" />
       <PasswordField fx:id="password" layoutX="202.0" layoutY="206.0" prefHeight="25.0" prefWidth="186.0" promptText="Password" />
       <Label fx:id="loginLabel" alignment="CENTER" layoutX="207.0" layoutY="57.0" prefHeight="17.0" prefWidth="186.0" text="Login to the MySQL Database" />
-      <Button fx:id="loginButton" layoutX="269.0" layoutY="275.0" mnemonicParsing="false" onAction="#handleLoginAction" text="Login" />
+       <Button fx:id="loginButton" layoutX="269.0" layoutY="275.0" mnemonicParsing="false" text="Login"/>
       <Label fx:id="incorrectLoginLabel" alignment="CENTER" layoutX="1.0" layoutY="361.0" prefHeight="17.0" prefWidth="600.0" textFill="RED" />
       <TextField fx:id="url" layoutX="202.0" layoutY="126.0" prefHeight="25.0" prefWidth="186.0" promptText="HOST:PORT">
          <opaqueInsets>

@@ -55,14 +55,22 @@ public class AdminPanelController implements Initializable {
         });
 
         yearComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            //todo load count of records to table
+            recordsListView.getSelectionModel().clearSelection();
+            recordsListView.getItems().clear();
+
+            if (newValue == null)
+                return; //smth was selected in the hospitalComboBox for the first time, reset yearComboBox
+
+            Integer[] recordsCountPerMonth = loadRecordsCountPerMonth();
+
+            for (int i = 0; i < recordsCountPerMonth.length; i++) {
+                recordsListView.getItems().add(i, Constants.MONTHS.get(i + 1) + " " + recordsCountPerMonth[i] + " records");
+            }
         });
-
-
     }
 
     private LinkedList<String[]> loadHospitals() {
-        LinkedList<String[]> result = null;
+        LinkedList<String[]> result = new LinkedList<>();
 
         String sql = "SELECT doctor_id_for_staff, hospital_name\n" +
                 "FROM ck_clinic_staff\n" +
@@ -73,7 +81,6 @@ public class AdminPanelController implements Initializable {
         try (Connection con = getConnection();
              PreparedStatement ps = con.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
-            result = new LinkedList<>();
             while (rs.next()) {
                 result.add(new String[]{rs.getString("doctor_id_for_staff"), rs.getString("hospital_name")});
             }
@@ -85,7 +92,7 @@ public class AdminPanelController implements Initializable {
     }
 
     private TreeSet<Integer> loadYears() {
-        TreeSet<Integer> result = null;
+        TreeSet<Integer> result = new TreeSet<>();
 
         String sql = "SELECT admission_date\n" +
                 "FROM ck_pharmacy_store_order\n" +
@@ -95,16 +102,11 @@ public class AdminPanelController implements Initializable {
         try (Connection con = getConnection();
              PreparedStatement ps = con.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
-            result = new TreeSet<>();
             while (rs.next()) {
                 if (SimpleDateParser.validateDate(rs.getString("admission_date"), 0)) {
                     result.add(SimpleDateParser.getYear(rs.getString("admission_date"), 0));
-                    if (rs.getString("admission_date").length() < 10)
-                        System.out.println(rs.getString("admission_date"));
                 } else if (SimpleDateParser.validateDate(rs.getString("admission_date"), 1)) {
                     result.add(SimpleDateParser.getYear(rs.getString("admission_date"), 1));
-                    if (rs.getString("admission_date").length() < 10)
-                        System.out.println(rs.getString("admission_date"));
                 } else {
                     System.err.println("invalid date: " + rs.getString("admission_date"));
                 }
@@ -116,10 +118,42 @@ public class AdminPanelController implements Initializable {
         return result;
     }
 
-//    private int loadCountOfRecords(int month, int year){
-//        int count = 0;
-//
-//    }
+    private Integer[] loadRecordsCountPerMonth() {
+        Integer[] countPerMonth = new Integer[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+        final String request = "SELECT COUNT(*)\n" +
+                "FROM ck_pharmacy_store_order\n" +
+                "WHERE admission_date != 'N/A' AND admission_date != '' AND admission_date NOT LIKE '%.%' AND doctor_id = " + hospitals.get(hospitalComboBox.getSelectionModel().getSelectedIndex())[0] + "\n" +
+                "AND (admission_date LIKE '%/<fullmonthnum>/<year>' OR admission_date LIKE '%/<shortmonthnum>/<year>' OR admission_date LIKE '<year>-<fullmonthnum>%' OR admission_date LIKE '<year>-<shortmonthnum>%')";
+
+        try (Connection con = getConnection()) {
+            for (int i = 1; i <= 12; i++) {
+                String sql = request;
+                if (i >= 10) {
+                    sql = sql.replace("<year>", String.valueOf(yearComboBox.getSelectionModel().getSelectedItem()))
+                            .replace("<fullmonthnum>", String.valueOf(i))
+                            .replace("<shortmonthnum>", String.valueOf(i));
+                } else {
+                    sql = sql.replace("<year>", String.valueOf(yearComboBox.getSelectionModel().getSelectedItem()))
+                            .replace("<fullmonthnum>", "0" + String.valueOf(i))
+                            .replace("<shortmonthnum>", String.valueOf(i));
+                }
+
+                System.out.println(sql);
+
+                try (PreparedStatement ps = con.prepareStatement(sql);
+                     ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        countPerMonth[i - 1] = rs.getInt(1);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return countPerMonth;
+    }
 
     private Connection getConnection() throws SQLException {
         // jdbc:mysql://<host>[:<port>]/<database_name>
