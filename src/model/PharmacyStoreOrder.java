@@ -4,13 +4,13 @@ import util.SimpleDateParser;
 
 import java.util.ArrayList;
 
-public class OrderImage {
+public class PharmacyStoreOrder {
     private long orderId;
     private long patientId;
     private SimpleDateParser.SimpleDate simpleDate;
     private ArrayList<String> orderImage;   //url of images
 
-    public OrderImage(long orderId, long patientId, SimpleDateParser.SimpleDate simpleDate, ArrayList<String> orderImage) {
+    public PharmacyStoreOrder(long orderId, long patientId, SimpleDateParser.SimpleDate simpleDate, ArrayList<String> orderImage) {
         this.orderId = orderId;
         this.patientId = patientId;
         this.simpleDate = simpleDate;

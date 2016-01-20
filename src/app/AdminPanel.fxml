@@ -1,19 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40"
+<?import javafx.scene.text.Font?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.40"
             fx:controller="app.AdminPanelController">
-    <children>
-        <ComboBox fx:id="hospitalComboBox" layoutX="82.0" layoutY="14.0" prefHeight="25.0" prefWidth="206.0"/>
-        <Label fx:id="hospitalLabel" layoutX="28.0" layoutY="18.0" text="Hospital"/>
-        <Label fx:id="yearLabel" layoutX="50.0" layoutY="64.0" text="Year"/>
-        <ComboBox fx:id="yearComboBox" layoutX="82.0" layoutY="60.0" prefHeight="25.0" prefWidth="206.0"/>
-        <Button fx:id="downloadButton" layoutX="515.0" layoutY="60.0" mnemonicParsing="false" text="Download"/>
-        <ListView fx:id="recordsListView" layoutX="14.0" layoutY="106.0" prefHeight="280.0" prefWidth="277.0"
-                  AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0"/>
-        <TextArea fx:id="logTextArea" layoutX="300.0" layoutY="106.0" prefHeight="280.0" prefWidth="286.0"
-                  AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0"/>
-    </children>
-</AnchorPane>
+    <top>
+        <VBox BorderPane.alignment="CENTER">
+            <children>
+                <HBox>
+                    <children>
+                        <Label fx:id="hospitalLabel" prefHeight="31.0" prefWidth="60.0" text="Hospital">
+                            <font>
+                                <Font size="15.0"/>
+                            </font>
+                            <HBox.margin>
+                                <Insets left="15.0" top="5.0"/>
+                            </HBox.margin>
+                        </Label>
+                        <ComboBox fx:id="hospitalComboBox" prefHeight="31.0" prefWidth="200.0">
+                            <HBox.margin>
+                                <Insets left="19.0"/>
+                            </HBox.margin>
+                        </ComboBox>
+                    </children>
+                    <VBox.margin>
+                        <Insets top="10.0"/>
+                    </VBox.margin>
+                </HBox>
+                <HBox>
+                    <children>
+                        <Label fx:id="yearLabel" prefHeight="31.0" prefWidth="60.0" text="Year">
+                            <font>
+                                <Font size="15.0"/>
+                            </font>
+                            <HBox.margin>
+                                <Insets left="15.0"/>
+                            </HBox.margin>
+                        </Label>
+                        <ComboBox fx:id="yearComboBox" prefHeight="31.0" prefWidth="200.0">
+                            <HBox.margin>
+                                <Insets left="19.0"/>
+                            </HBox.margin>
+                        </ComboBox>
+                        <Button fx:id="downloadButton" mnemonicParsing="false" text="Download">
+                            <HBox.margin>
+                                <Insets left="25.0"/>
+                            </HBox.margin>
+                            <font>
+                                <Font size="15.0"/>
+                            </font>
+                        </Button>
+                    </children>
+                    <VBox.margin>
+                        <Insets top="15.0"/>
+                    </VBox.margin>
+                </HBox>
+            </children>
+        </VBox>
+    </top>
+    <center>
+        <SplitPane dividerPositions="0.3619791666666667" prefHeight="160.0" prefWidth="200.0"
+                   BorderPane.alignment="CENTER">
+            <items>
+                <ListView fx:id="recordsListView" prefHeight="200.0" prefWidth="200.0"/>
+                <TextArea fx:id="logTextArea" prefHeight="200.0" prefWidth="200.0">
+                    <font>
+                        <Font size="15.0"/>
+                    </font>
+                </TextArea>
+            </items>
+            <BorderPane.margin>
+                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+            </BorderPane.margin>
+        </SplitPane>
+    </center>
+</BorderPane>

@@ -9,6 +9,10 @@ public class Constants {
     public static final String DB_PASSWORD = "db_password";
     public static final String DB_NAME = "novacar9_chikitsa";
 
+    public static final String FILE_SEPARATOR = System.getProperty("file.separator");
+    public static final String PDF_RESOURCES = "pdf-resources";
+    public static final String FILE_DOWNLOADING_DIR = PDF_RESOURCES + FILE_SEPARATOR + "load";
+
     public static final Map<Integer, String> MONTHS = new LinkedHashMap<Integer, String>() {
         {
             put(1, "January");

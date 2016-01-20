@@ -1,21 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40"
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.40"
             fx:controller="app.DBLoginController">
-   <children>
-      <TextField fx:id="login" layoutX="202.0" layoutY="166.0" prefHeight="25.0" prefWidth="186.0" promptText="Login" />
-      <PasswordField fx:id="password" layoutX="202.0" layoutY="206.0" prefHeight="25.0" prefWidth="186.0" promptText="Password" />
-      <Label fx:id="loginLabel" alignment="CENTER" layoutX="207.0" layoutY="57.0" prefHeight="17.0" prefWidth="186.0" text="Login to the MySQL Database" />
-       <Button fx:id="loginButton" layoutX="269.0" layoutY="275.0" mnemonicParsing="false" text="Login"/>
-      <Label fx:id="incorrectLoginLabel" alignment="CENTER" layoutX="1.0" layoutY="361.0" prefHeight="17.0" prefWidth="600.0" textFill="RED" />
-      <TextField fx:id="url" layoutX="202.0" layoutY="126.0" prefHeight="25.0" prefWidth="186.0" promptText="HOST:PORT">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </TextField>
-   </children>
-</AnchorPane>
+    <center>
+        <StackPane prefHeight="453.0" prefWidth="593.0" BorderPane.alignment="CENTER">
+            <children>
+                <Label fx:id="loginLabel" text="Login to the MySQL Database" StackPane.alignment="CENTER">
+                    <font>
+                        <Font size="15.0"/>
+                    </font>
+                    <StackPane.margin>
+                        <Insets top="-270.0"/>
+                    </StackPane.margin>
+                </Label>
+                <TextField fx:id="url" promptText="HOST:POST" StackPane.alignment="CENTER">
+                    <StackPane.margin>
+                        <Insets bottom="150.0" left="270.0" right="270.0"/>
+                    </StackPane.margin>
+                    <font>
+                        <Font size="15.0"/>
+                    </font>
+                </TextField>
+                <TextField fx:id="login" promptText="Login">
+                    <StackPane.margin>
+                        <Insets bottom="60.0" left="270.0" right="270.0"/>
+                    </StackPane.margin>
+                    <font>
+                        <Font size="15.0"/>
+                    </font>
+                </TextField>
+                <PasswordField fx:id="password" promptText="Password">
+                    <StackPane.margin>
+                        <Insets bottom="-30.0" left="270.0" right="270.0"/>
+                    </StackPane.margin>
+                    <font>
+                        <Font size="15.0"/>
+                    </font>
+                </PasswordField>
+                <Button fx:id="loginButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="90.0" text="Login"
+                        StackPane.alignment="CENTER">
+                    <font>
+                        <Font size="15.0"/>
+                    </font>
+                    <StackPane.margin>
+                        <Insets bottom="-170.0"/>
+                    </StackPane.margin>
+                </Button>
+                <Label fx:id="incorrectLoginLabel" contentDisplay="CENTER" textFill="RED"
+                       StackPane.alignment="BOTTOM_CENTER">
+                    <font>
+                        <Font size="15.0"/>
+                    </font>
+                    <StackPane.margin>
+                        <Insets bottom="50.0"/>
+                    </StackPane.margin>
+                </Label>
+            </children>
+        </StackPane>
+    </center>
+</BorderPane>

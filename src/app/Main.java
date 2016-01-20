@@ -33,7 +33,6 @@ public class Main extends Application {
         });
 
         mainStage.setScene(new Scene(root));
-        mainStage.setResizable(false);
         mainStage.show();
     }
 
