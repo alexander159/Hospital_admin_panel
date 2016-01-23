@@ -122,14 +122,6 @@
                                 <Font size="15.0"/>
                             </font>
                         </Label>
-                        <Label fx:id="createdZipLabel" text="Created ZIP: 0/0">
-                            <HBox.margin>
-                                <Insets left="15.0"/>
-                            </HBox.margin>
-                            <font>
-                                <Font size="15.0"/>
-                            </font>
-                        </Label>
                     </children>
                     <VBox.margin>
                         <Insets top="5.0"/>

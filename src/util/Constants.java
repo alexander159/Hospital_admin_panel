@@ -13,10 +13,7 @@ public class Constants {
 
     public static class Directory {
         public static final String FILE_SEPARATOR = System.getProperty("file.separator");
-        public static final String DATA_DIR = "data";
-        public static final String CREATED_PDF_DIR = DATA_DIR + FILE_SEPARATOR + "created-pdf";
-        public static final String CREATED_ZIP_DIR = DATA_DIR + FILE_SEPARATOR + "created-zip";
-        public static final String DOWNLOADING_DIR = DATA_DIR + FILE_SEPARATOR + "downloaded";
+        public static final String OUTPUT_DIR = "output";
     }
 
     public static class Values {
