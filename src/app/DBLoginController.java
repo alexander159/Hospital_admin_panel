@@ -53,7 +53,7 @@ public class DBLoginController implements Initializable {
                 }
 
                 mainStage.hide();
-                mainStage.setScene(new Scene(adminPanel));
+                mainStage.setScene(new Scene(adminPanel, 800, 600));
                 mainStage.show();
             }
         });
@@ -62,12 +62,12 @@ public class DBLoginController implements Initializable {
     private boolean checkMySQLCredentials() {
         // jdbc:mysql://<host>[:<port>]/<database_name>
         try (Connection ignored = DriverManager.getConnection(
-                String.format("jdbc:mysql://%s/%s", url.getText(), Constants.DB_NAME),
+                String.format("jdbc:mysql://%s/%s", url.getText(), Constants.Database.DB_NAME),
                 login.getText(),
                 password.getText())) {
-            DatabaseCredentials.getInstance().getCredentials().put(Constants.DB_URL, url.getText());
-            DatabaseCredentials.getInstance().getCredentials().put(Constants.DB_USER, login.getText());
-            DatabaseCredentials.getInstance().getCredentials().put(Constants.DB_PASSWORD, password.getText());
+            DatabaseCredentials.getInstance().getCredentials().put(Constants.Database.DB_URL, url.getText());
+            DatabaseCredentials.getInstance().getCredentials().put(Constants.Database.DB_USER, login.getText());
+            DatabaseCredentials.getInstance().getCredentials().put(Constants.Database.DB_PASSWORD, password.getText());
 
             return true;
         } catch (SQLException e) {

@@ -48,7 +48,7 @@ public class PharmacyStoreOrder {
         return simpleDate;
     }
 
-    public ArrayList<String> getOrderImage() {
+    public ArrayList<String> getOrderImages() {
         return orderImage;
     }
 }

@@ -3,7 +3,7 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.*?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.40"
             fx:controller="app.AdminPanelController">
@@ -17,17 +17,17 @@
                                 <Font size="15.0"/>
                             </font>
                             <HBox.margin>
-                                <Insets left="15.0" top="5.0"/>
+                                <Insets left="15.0"/>
                             </HBox.margin>
                         </Label>
-                        <ComboBox fx:id="hospitalComboBox" prefHeight="31.0" prefWidth="200.0">
+                        <ComboBox fx:id="hospitalComboBox" prefHeight="31.0" prefWidth="240.0">
                             <HBox.margin>
                                 <Insets left="19.0"/>
                             </HBox.margin>
                         </ComboBox>
                     </children>
                     <VBox.margin>
-                        <Insets top="10.0"/>
+                        <Insets top="15.0"/>
                     </VBox.margin>
                 </HBox>
                 <HBox>
@@ -40,29 +40,55 @@
                                 <Insets left="15.0"/>
                             </HBox.margin>
                         </Label>
-                        <ComboBox fx:id="yearComboBox" prefHeight="31.0" prefWidth="200.0">
+                        <ComboBox fx:id="yearComboBox" prefHeight="31.0" prefWidth="240.0">
                             <HBox.margin>
                                 <Insets left="19.0"/>
                             </HBox.margin>
                         </ComboBox>
-                        <Button fx:id="downloadButton" mnemonicParsing="false" text="Download">
-                            <HBox.margin>
-                                <Insets left="25.0"/>
-                            </HBox.margin>
-                            <font>
-                                <Font size="15.0"/>
-                            </font>
-                        </Button>
                     </children>
                     <VBox.margin>
                         <Insets top="15.0"/>
                     </VBox.margin>
                 </HBox>
+                <HBox>
+                    <VBox.margin>
+                        <Insets top="15.0"/>
+                    </VBox.margin>
+                    <children>
+                        <CheckBox fx:id="saveAsPdfCheckBox" mnemonicParsing="false" prefHeight="31.0"
+                                  text="Save as PDF">
+                            <font>
+                                <Font size="15.0"/>
+                            </font>
+                            <HBox.margin>
+                                <Insets left="15.0"/>
+                            </HBox.margin>
+                        </CheckBox>
+                        <CheckBox fx:id="saveAsImageCheckBox" mnemonicParsing="false" prefHeight="31.0"
+                                  text="Save as image">
+                            <font>
+                                <Font size="15.0"/>
+                            </font>
+                            <HBox.margin>
+                                <Insets left="15.0"/>
+                            </HBox.margin>
+                        </CheckBox>
+                        <Button fx:id="downloadButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="130.0"
+                                text="Download">
+                            <font>
+                                <Font size="15.0"/>
+                            </font>
+                            <HBox.margin>
+                                <Insets left="75.0"/>
+                            </HBox.margin>
+                        </Button>
+                    </children>
+                </HBox>
             </children>
         </VBox>
     </top>
     <center>
-        <SplitPane dividerPositions="0.3619791666666667" prefHeight="160.0" prefWidth="200.0"
+        <SplitPane dividerPositions="0.4153645833333333" prefHeight="160.0" prefWidth="200.0"
                    BorderPane.alignment="CENTER">
             <items>
                 <ListView fx:id="recordsListView" prefHeight="200.0" prefWidth="200.0"/>
@@ -77,4 +103,42 @@
             </BorderPane.margin>
         </SplitPane>
     </center>
+    <bottom>
+        <VBox BorderPane.alignment="CENTER">
+            <children>
+                <ProgressBar fx:id="progressBar" prefHeight="18.0" prefWidth="1000.0" progress="0.0"/>
+                <HBox>
+                    <children>
+                        <Label fx:id="downloadedImagesLabel" text="Downloaded images: 0/0">
+                            <font>
+                                <Font size="15.0"/>
+                            </font>
+                        </Label>
+                        <Label fx:id="createdPdfsLabel" text="Created PDFs: 0/0">
+                            <HBox.margin>
+                                <Insets left="15.0"/>
+                            </HBox.margin>
+                            <font>
+                                <Font size="15.0"/>
+                            </font>
+                        </Label>
+                        <Label fx:id="createdZipLabel" text="Created ZIP: 0/0">
+                            <HBox.margin>
+                                <Insets left="15.0"/>
+                            </HBox.margin>
+                            <font>
+                                <Font size="15.0"/>
+                            </font>
+                        </Label>
+                    </children>
+                    <VBox.margin>
+                        <Insets top="5.0"/>
+                    </VBox.margin>
+                </HBox>
+            </children>
+            <BorderPane.margin>
+                <Insets bottom="15.0" left="15.0" right="15.0"/>
+            </BorderPane.margin>
+        </VBox>
+    </bottom>
 </BorderPane>

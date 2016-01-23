@@ -32,7 +32,7 @@ public class Main extends Application {
             showCloseConfirmMessage();
         });
 
-        mainStage.setScene(new Scene(root));
+        mainStage.setScene(new Scene(root, 800, 600));
         mainStage.show();
     }
 
