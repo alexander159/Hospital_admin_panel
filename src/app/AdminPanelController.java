@@ -104,7 +104,7 @@ public class AdminPanelController implements Initializable {
             } else if (recordsListView.getSelectionModel().getSelectedItem() == null) {
                 logTextArea.appendText("Month is not selected!\n");
             } else if (!saveAsImageCheckBox.isSelected() && !saveAsPdfCheckBox.isSelected()) {
-                logTextArea.appendText("'Save as image' or 'Save as PDF' ignored!\n");
+                logTextArea.appendText("'Save as image' or 'Save as PDF' is not selected!\n");
             } else {
                 final int[] month = {0};
                 Constants.Values.MONTHS.forEach((monthNumber, monthValue) -> {
@@ -130,15 +130,15 @@ public class AdminPanelController implements Initializable {
     }
 
     private void setDownloadedImagesCount(int count) {
-        Platform.runLater(() -> downloadedImagesLabel.setText("Downloaded images: " + count + downloadedImagesLabel.getText().substring(downloadedImagesLabel.getText().indexOf("/"))));
+        downloadedImagesLabel.setText("Downloaded images: " + count + downloadedImagesLabel.getText().substring(downloadedImagesLabel.getText().indexOf("/")));
     }
 
     private void setCreatedPDFsCount(int count) {
-        Platform.runLater(() -> createdPdfsLabel.setText("Created PDFs: " + count + createdPdfsLabel.getText().substring(createdPdfsLabel.getText().indexOf("/"))));
+        createdPdfsLabel.setText("Created PDFs: " + count + createdPdfsLabel.getText().substring(createdPdfsLabel.getText().indexOf("/")));
     }
 
     private void updateProgressBar(double value) {
-        Platform.runLater(() -> progressBar.setProgress(value)); //from 0 to 1
+        progressBar.setProgress(value); //from 0 to 1
     }
 
     private int getCountOfImagesToDownload(LinkedList<PharmacyStoreOrder> ordersList) {
@@ -154,8 +154,8 @@ public class AdminPanelController implements Initializable {
             protected Void call() throws Exception {
                 if (FileManager.isDirectoryExist(Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + "-pdf")) {
                     if (!FileManager.removeDirectory(Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + "-pdf")) {
-                        logTextArea.appendText("Removing directory failed:" + Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + "-pdf" + "!\n");
-                        throw new Exception("Removing directory failed:" + Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + "-pdf");
+                        logTextArea.appendText("Removing directory failed: " + Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + "-pdf!\n");
+                        throw new Exception("Removing directory failed: " + Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + "-pdf");
                     }
                 }
 
@@ -163,8 +163,8 @@ public class AdminPanelController implements Initializable {
                     if (FileManager.removeDirectory(Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName)) {
                         downloadImages();
                     } else {
-                        logTextArea.appendText("Removing directory failed:" + Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + "!\n");
-                        throw new Exception("Removing directory failed:" + Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName);
+                        logTextArea.appendText("Removing directory failed: " + Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + "!\n");
+                        throw new Exception("Removing directory failed: " + Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName);
                     }
                 } else {
                     downloadImages();
@@ -180,9 +180,9 @@ public class AdminPanelController implements Initializable {
 
             //delete downloading directory with all files inside
             if (FileManager.removeDirectory(Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName)) {
-                logTextArea.appendText("Directory deleted:" + Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + "!\n");
+                logTextArea.appendText("Directory deleted: " + Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + "!\n");
             } else {
-                logTextArea.appendText("Removing directory failed:" + Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + "!\n");
+                logTextArea.appendText("Removing directory failed: " + Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + "!\n");
             }
         });
 
@@ -195,7 +195,7 @@ public class AdminPanelController implements Initializable {
                     @Override
                     protected Void call() throws Exception {
                         if (FileManager.createDirectory(Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + "-pdf")) {
-                            logTextArea.appendText("Directory created: " + Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + "-pdf\n");
+                            logTextArea.appendText("Directory created: " + Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + "-pdf!\n");
                             createPdfFiles();
                         } else {
                             logTextArea.appendText("Directory failed to create: " + Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + "-pdf!\n");
@@ -212,16 +212,16 @@ public class AdminPanelController implements Initializable {
 
                     //delete images directory with all files inside
                     if (FileManager.removeDirectory(Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName)) {
-                        logTextArea.appendText("Directory deleted:" + Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + "!\n");
+                        logTextArea.appendText("Directory deleted: " + Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + "!\n");
                     } else {
-                        logTextArea.appendText("Removing directory failed:" + Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + "!\n");
+                        logTextArea.appendText("Removing directory failed: " + Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + "!\n");
                     }
 
                     //delete pdf directory with all files inside
                     if (FileManager.removeDirectory(Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + "-pdf")) {
-                        logTextArea.appendText("Directory deleted:" + Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + "-pdf!\n");
+                        logTextArea.appendText("Directory deleted: " + Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + "-pdf!\n");
                     } else {
-                        logTextArea.appendText("Removing directory failed:" + Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + "-pdf!\n");
+                        logTextArea.appendText("Removing directory failed: " + Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + "-pdf!\n");
                     }
                 });
 
@@ -231,9 +231,9 @@ public class AdminPanelController implements Initializable {
 
                     //delete images directory with all files inside
                     if (FileManager.removeDirectory(Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName)) {
-                        logTextArea.appendText("Directory deleted:" + Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + "!\n");
+                        logTextArea.appendText("Directory deleted(temp images): " + Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + "!\n");
                     } else {
-                        logTextArea.appendText("Removing directory failed:" + Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + "!\n");
+                        logTextArea.appendText("Removing directory failed(temp images): " + Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + "!\n");
                     }
 
                     lockGuiElements(false);
@@ -255,12 +255,14 @@ public class AdminPanelController implements Initializable {
         pharmacyStoreOrders.forEach(order -> es.execute(() -> {
             try {
                 PDF.create(order, Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName, Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + "-pdf");
-                Platform.runLater(() -> logTextArea.appendText("PDF created: " + String.format("patient%s_order%s.pdf", order.getPatientId(), order.getOrderId()) + "\n"));
-                setCreatedPDFsCount(++createdPDFsCount);
-                updateProgressBar(createdPDFsCount / Double.parseDouble((createdPdfsLabel.getText().substring(createdPdfsLabel.getText().indexOf("/") + 1))));
+                Platform.runLater(() -> {
+                    logTextArea.appendText("PDF created: " + String.format("patient%s_order%s.pdf", order.getPatientId(), order.getOrderId()) + "!\n");
+                    setCreatedPDFsCount(++createdPDFsCount);
+                    updateProgressBar(createdPDFsCount / Double.parseDouble((createdPdfsLabel.getText().substring(createdPdfsLabel.getText().indexOf("/") + 1))));
+                });
             } catch (IOException e) {
                 e.printStackTrace();
-                Platform.runLater(() -> logTextArea.appendText("Failed to create PDF. OrderId = " + order.getOrderId() + "\n"));
+                Platform.runLater(() -> logTextArea.appendText("Failed to create PDF. OrderId = " + order.getOrderId() + "!\n"));
 
                 try {
                     FileDeleteStrategy.FORCE.delete(new File(Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + "-pdf"
@@ -281,7 +283,7 @@ public class AdminPanelController implements Initializable {
 
     private void downloadImages() throws Exception {
         if (FileManager.createDirectory(Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName)) {
-            logTextArea.appendText("Directory created: " + Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + "\n");
+            logTextArea.appendText("Directory created: " + Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + "!\n");
             logTextArea.appendText("=======Downloading started=======\n");
 
             lockGuiElements(true);
@@ -291,12 +293,14 @@ public class AdminPanelController implements Initializable {
                             try {
                                 Platform.runLater(() -> logTextArea.appendText("Downloading " + imgFileName + "...\n"));
                                 downloadImgFromS3Server(Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName, imgFileName);
-                                //Platform.runLater(() -> logTextArea.appendText("Download finished " + imgFileName + "!\n"));
-                                setDownloadedImagesCount(++downloadedImagesCount);
-                                updateProgressBar(downloadedImagesCount / Double.parseDouble((downloadedImagesLabel.getText().substring(downloadedImagesLabel.getText().indexOf("/") + 1))));
+                                Platform.runLater(() -> {
+                                    //logTextArea.appendText("Download finished: " + imgFileName + "!\n");
+                                    setDownloadedImagesCount(++downloadedImagesCount);
+                                    updateProgressBar(downloadedImagesCount / Double.parseDouble((downloadedImagesLabel.getText().substring(downloadedImagesLabel.getText().indexOf("/") + 1))));
+                                });
                             } catch (IOException e) {
-                                System.err.println("Download failed " + imgFileName + "\n");
-                                Platform.runLater(() -> logTextArea.appendText("Download failed " + imgFileName + "\n"));
+                                System.err.println("Download failed: " + imgFileName + "!\n");
+                                Platform.runLater(() -> logTextArea.appendText("Download failed: " + imgFileName + "!\n"));
                                 e.printStackTrace();
                             }
                         }
@@ -306,26 +310,27 @@ public class AdminPanelController implements Initializable {
                     if (FileManager.createDirectory(Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + Constants.Directory.FILE_SEPARATOR +
                             String.format("patient%s_order%s", order.getPatientId(), order.getOrderId()))) {
                         Platform.runLater(() -> logTextArea.appendText("Directory created: " + Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + Constants.Directory.FILE_SEPARATOR +
-                                String.format("patient%s_order%s", order.getPatientId(), order.getOrderId()) + "\n"));
+                                String.format("patient%s_order%s", order.getPatientId(), order.getOrderId()) + "!\n"));
                         order.getOrderImages().forEach(imgFileName -> es.execute(() -> {
                                     try {
                                         Platform.runLater(() -> Platform.runLater(() -> logTextArea.appendText("Downloading " + imgFileName + "...\n")));
                                         downloadImgFromS3Server(Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName
                                                 + Constants.Directory.FILE_SEPARATOR + String.format("patient%s_order%s", order.getPatientId(), order.getOrderId()), imgFileName);
-                                        //todo bug (nullpointer exception if uncomment)
-                                        //Platform.runLater(() -> logTextArea.appendText("Download finished " + imgFileName + "!\n"));
-                                        setDownloadedImagesCount(++downloadedImagesCount);
-                                        updateProgressBar(downloadedImagesCount / Double.parseDouble((downloadedImagesLabel.getText().substring(downloadedImagesLabel.getText().indexOf("/") + 1))));
+                                        Platform.runLater(() -> {
+                                            //logTextArea.appendText("Download finished: " + imgFileName + "!\n");
+                                            setDownloadedImagesCount(++downloadedImagesCount);
+                                            updateProgressBar(downloadedImagesCount / Double.parseDouble((downloadedImagesLabel.getText().substring(downloadedImagesLabel.getText().indexOf("/") + 1))));
+                                        });
                                     } catch (IOException e) {
-                                        System.err.println("Download failed " + imgFileName + "\n");
-                                        Platform.runLater(() -> logTextArea.appendText("Download failed " + imgFileName + "\n"));
+                                        System.err.println("Download failed: " + imgFileName + "\n");
+                                        Platform.runLater(() -> logTextArea.appendText("Download failed: " + imgFileName + "!\n"));
                                         e.printStackTrace();
                                     }
                                 }
                         ));
                     } else {
                         Platform.runLater(() -> logTextArea.appendText("Directory failed to create: " + Constants.Directory.OUTPUT_DIR + Constants.Directory.FILE_SEPARATOR + selectedHospitalFolderName + Constants.Directory.FILE_SEPARATOR +
-                                String.format("patient%s_order%s", order.getPatientId(), order.getOrderId())));
+                                String.format("patient%s_order%s", order.getPatientId(), order.getOrderId()) + "!\n"));
                     }
                 });
             }
